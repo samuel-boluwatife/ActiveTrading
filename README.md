@@ -1,18 +1,17 @@
 <div align="center">
 
-# 📈 OpenCharts
+# 📈 ActiveTrading
 
 **An open-source trading terminal that runs entirely in your browser — no backend to run, no signup, no API keys.**
 
 Advanced charting · full drawing-tool suite · 8 indicators · session replay · watchlist · depth-of-market · order ticket · built-in paper-trading engine, seeded with **real** market history.
 
-[![CI](https://github.com/dylanpersonguy/OpenCharts/actions/workflows/ci.yml/badge.svg)](https://github.com/dylanpersonguy/OpenCharts/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A520-brightgreen.svg)](https://nodejs.org)
 
-**[▶ Live demo](https://dylanpersonguy.github.io/OpenCharts/)** · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
+**[▶ Live demo]** · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
 
-![OpenCharts trading terminal](docs/screenshot.png)
+![ActiveTrading trading terminal](docs/screenshot.png)
 
 </div>
 
@@ -20,16 +19,16 @@ Advanced charting · full drawing-tool suite · 8 indicators · session replay �
 
 ## Table of contents
 
-- [What is OpenCharts?](#what-is-opencharts)
+- [What is ActiveTrading?](#what-is-activetrading)
 - [Features](#features)
 - [Quick start](#quick-start)
 - [What's real and what's simulated](#whats-real-and-whats-simulated)
 - [How it works](#how-it-works)
 - [Built on Lightweight Charts](#built-on-lightweight-charts)
 - [Project structure](#project-structure)
-- [Building on OpenCharts](#building-on-opencharts)
+- [Building on ActiveTrading](#building-on-activetrading)
 - [Refreshing the bundled market data](#refreshing-the-bundled-market-data)
-- [Integrating OpenCharts](#integrating-opencharts)
+- [Integrating ActiveTrading](#integrating-activetrading)
 - [Adding instruments](#adding-instruments)
 - [Configuration](#configuration)
 - [Scripts](#scripts)
@@ -41,9 +40,9 @@ Advanced charting · full drawing-tool suite · 8 indicators · session replay �
 
 ---
 
-## What is OpenCharts?
+## What is ActiveTrading?
 
-OpenCharts is a self-contained **trading terminal UI**. Open it and you land
+ActiveTrading is a self-contained **trading terminal UI**. Open it and you land
 straight in the terminal: a candlestick chart with a TradingView-style drawing
 toolbar, indicators, a watchlist, a depth-of-market ladder and an order ticket —
 all wired to an **in-browser paper-trading engine** funded with $100,000.
@@ -58,7 +57,7 @@ It's useful as:
 - A **standalone charting / paper-trading app** you can host on any static host.
 - A **reference terminal UI** you can point at your own market-data and trading
   backend — implement one adapter interface, no fork required
-  (see [Integrating OpenCharts](#integrating-opencharts)).
+  (see [Integrating ActiveTrading](#integrating-activetrading)).
 - A **learning sandbox** for charting, technical drawing and order management.
 
 The codebase was extracted from a closed-source prop-trading platform, so a few
@@ -72,7 +71,7 @@ deliberately small, dependency-light and backend-agnostic so that anyone can
 clone it, understand it in an afternoon and extend it. Contributions of every
 size are welcome, from a new indicator or drawing tool to an exchange adapter,
 a theme, a bug report or a docs fix — see
-[Building on OpenCharts](#building-on-opencharts) and
+[Building on ActiveTrading](#building-on-activetrading) and
 [Contributing](#contributing).
 
 ## Features
@@ -158,26 +157,26 @@ toolbar and removable individually or in bulk from the chart context menu.
 > ```bash
 > npm install && npm run build:lib && npm pack
 > # then, in your app:
-> npm install /path/to/OpenCharts/dylanpersonguy-opencharts-0.3.0.tgz
+> npm install /path/to/ActiveTrading/activetrading-0.3.0.tgz
 > ```
 >
 > Once it is published, this becomes:
 
 ```bash
-npm install @dylanpersonguy/opencharts
+npm install activetrading
 ```
 
 ```tsx
-import { OpenChartsProvider, Terminal } from "@dylanpersonguy/opencharts";
-import { createDemoAdapter } from "@dylanpersonguy/opencharts/demo";
-import "@dylanpersonguy/opencharts/style.css";
+import { ActiveTradingProvider, Terminal } from "activetrading";
+import { createDemoAdapter } from "activetrading/demo";
+import "activetrading/style.css";
 
 export function TradingScreen() {
   return (
     <div style={{ height: 640 }}>
-      <OpenChartsProvider adapter={createDemoAdapter()}>
+      <ActiveTradingProvider adapter={createDemoAdapter()}>
         <Terminal />
-      </OpenChartsProvider>
+      </ActiveTradingProvider>
     </div>
   );
 }
@@ -185,7 +184,7 @@ export function TradingScreen() {
 
 That runs the full terminal against the bundled demo data — nothing else to
 configure. Swap `createDemoAdapter()` for your own adapter to point it at a real
-backend ([Integrating OpenCharts](#integrating-opencharts)). React 18.2+ is the
+backend ([Integrating ActiveTrading](#integrating-activetrading)). React 18.2+ is the
 only peer dependency; the stylesheet is precompiled, so your app does not need
 Tailwind.
 
@@ -211,7 +210,7 @@ npm run preview    # serve the production build locally
 
 ## What's real and what's simulated
 
-OpenCharts is a paper terminal, and being precise about this matters more than
+ActiveTrading is a paper terminal, and being precise about this matters more than
 marketing copy:
 
 | Piece | Status |
@@ -236,7 +235,7 @@ marketing copy:
 ## How it works
 
 The UI is **backend-agnostic**. It talks to an internal `api` / `wsClient` pair,
-and those resolve against whichever `OpenChartsAdapter` is installed. The
+and those resolve against whichever `ActiveTradingAdapter` is installed. The
 bundled demo backend is simply the adapter that ships by default:
 
 ```
@@ -252,9 +251,9 @@ bundled demo backend is simply the adapter that ships by default:
                 └─────────────┬─────────────┘ └─────────────┬─────────────┘
                               │                             │
                 ┌─────────────▼─────────────────────────────▼─────────────┐
-                │   OpenChartsAdapter  (adapter/types.ts)                 │
+                │   ActiveTradingAdapter  (adapter/types.ts)                 │
                 │   marketData · trading? · storage?                      │
-                │   installed by <OpenChartsProvider adapter={…}>         │
+                │   installed by <ActiveTradingProvider adapter={…}>         │
                 └─────────────┬───────────────────────────────────────────┘
                               │ default: createDemoAdapter()
                 ┌─────────────▼───────────────────────────────────────────┐
@@ -269,7 +268,7 @@ bundled demo backend is simply the adapter that ships by default:
 
 - **`services/api.ts`** — the internal facade every component reads and writes
   through. Each method resolves against the installed adapter, mapping the
-  small public `OpenChartsAdapter` contract onto the calls the UI makes.
+  small public `ActiveTradingAdapter` contract onto the calls the UI makes.
 - **`services/ws.ts`** — subscribes to the adapter's market-data and trading
   streams and republishes them on the four channels the terminal consumes
   (`market-data`, `positions`, `orders`, `account`). It also owns the
@@ -292,12 +291,12 @@ changes**.
 
 ## Built on Lightweight Charts
 
-OpenCharts is **built on top of TradingView's
+ActiveTrading is **built on top of TradingView's
 [Lightweight Charts™](https://github.com/tradingview/lightweight-charts)**
 (`lightweight-charts` `^4.2.0`, resolved to 4.2.3 in the lockfile, which in turn
 pulls in `fancy-canvas`, MIT). The chart canvas, series, panes, price scales,
 crosshair and time axis are all
-Lightweight Charts. OpenCharts is the terminal *around* it: the drawing engine
+Lightweight Charts. ActiveTrading is the terminal *around* it: the drawing engine
 (`src/lib/chart-plugins/drawing-tools/`), the indicator layer, the series
 primitives, and the panels, order flow and paper engine that surround the chart.
 
@@ -322,7 +321,7 @@ project's license.
   Copyright (с) 2025 TradingView, Inc. https://www.tradingview.com/
   ```
 
-- **OpenCharts satisfies this via the chart's built-in attribution logo.** The
+- **ActiveTrading satisfies this via the chart's built-in attribution logo.** The
   `attributionLogo` layout option defaults to `true` and this project never
   overrides it, so the TradingView link renders on the chart pane. **Do not set
   `attributionLogo: false` unless you place the notice and link somewhere else
@@ -331,7 +330,7 @@ project's license.
 - **Keep the notice when you redistribute.** Apache 2.0 requires that you pass
   along the license and notice with any copy or derivative — that includes the
   adapted plugin code in `src/lib/chart-plugins/`.
-- **OpenCharts' own code is MIT** (see [LICENSE](LICENSE)). MIT and Apache 2.0
+- **ActiveTrading' own code is MIT** (see [LICENSE](LICENSE)). MIT and Apache 2.0
   are compatible, so a build that combines them is fine — you just have to honor
   Apache 2.0's attribution and notice terms for the chart portion.
 
@@ -369,8 +368,8 @@ src/
 │  ├─ use-terminal.ts      #   useTerminal(), for panels you write yourself
 │  └─ Terminal.tsx         #   the full terminal in its default layout
 ├─ adapter/                # the public integration surface
-│  ├─ types.ts             #   the OpenChartsAdapter contract
-│  ├─ provider.tsx         #   <OpenChartsProvider adapter={...}>
+│  ├─ types.ts             #   the ActiveTradingAdapter contract
+│  ├─ provider.tsx         #   <ActiveTradingProvider adapter={...}>
 │  ├─ registry.ts          #   the installed adapter, read by api / wsClient
 │  ├─ demo.ts              #   the bundled backend, as a reference adapter
 │  └─ conformance.ts       #   a test suite adapter authors can run
@@ -391,7 +390,7 @@ scripts/
 └─ fetch-demo-data.mjs      # refresh the bundled real OHLC
 ```
 
-## Building on OpenCharts
+## Building on ActiveTrading
 
 Everything below is a real extension point in the code, not a roadmap. `npm run
 typecheck` and `npm run test` are the two gates; TypeScript runs in `strict` mode
@@ -512,19 +511,19 @@ node scripts/fetch-demo-data.mjs
 ```
 
 This re-pulls up to 1000 bars per symbol per timeframe and rewrites the bundled files
-plus `data/manifest.json`. The candles are genuine market history — OpenCharts
+plus `data/manifest.json`. The candles are genuine market history — ActiveTrading
 never ships synthetic OHLC.
 
-## Integrating OpenCharts
+## Integrating ActiveTrading
 
-**You do not fork OpenCharts to use your own data.** Implement one interface,
+**You do not fork ActiveTrading to use your own data.** Implement one interface,
 hand it to the provider, and the whole terminal — chart, order ticket, positions,
 replay — runs against your backend.
 
 ```tsx
-import { OpenChartsProvider, Terminal, type OpenChartsAdapter } from "@dylanpersonguy/opencharts";
+import { ActiveTradingProvider, Terminal, type ActiveTradingAdapter } from "activetrading";
 
-const adapter: OpenChartsAdapter = {
+const adapter: ActiveTradingAdapter = {
   name: "my-broker",
   marketData: {
     getSymbols: () => myApi.instruments(),
@@ -537,9 +536,9 @@ const adapter: OpenChartsAdapter = {
   },
 };
 
-<OpenChartsProvider adapter={adapter}>
+<ActiveTradingProvider adapter={adapter}>
   <Terminal />
-</OpenChartsProvider>;
+</ActiveTradingProvider>;
 ```
 
 That is the minimum: **`marketData` is the only required part.** Add `trading`
@@ -578,7 +577,7 @@ A conformance suite ships with the project and checks the things that fail
 quietly:
 
 ```ts
-import { runAdapterConformance } from "@dylanpersonguy/opencharts/conformance";
+import { runAdapterConformance } from "activetrading/conformance";
 
 runAdapterConformance("my-broker", () => createMyAdapter(), { symbol: "BTCUSD" });
 ```
@@ -593,7 +592,7 @@ in your own dashboard, mount the panels individually instead — each reads what
 it needs from `<TerminalProvider>`, so they stay in sync without prop drilling:
 
 ```tsx
-<OpenChartsProvider adapter={myAdapter}>
+<ActiveTradingProvider adapter={myAdapter}>
   <TerminalProvider>
     <main><Chart /></main>
     <aside>
@@ -602,7 +601,7 @@ it needs from `<TerminalProvider>`, so they stay in sync without prop drilling:
     </aside>
     <footer><Positions /></footer>
   </TerminalProvider>
-</OpenChartsProvider>
+</ActiveTradingProvider>
 ```
 
 | Panel | What it is |
@@ -621,7 +620,7 @@ composition gets them. Layout is entirely yours. A full example is in
 
 ### What the provider handles for you
 
-`<OpenChartsProvider>` is the whole runtime. It installs the adapter, opens the
+`<ActiveTradingProvider>` is the whole runtime. It installs the adapter, opens the
 market-data stream, loads instruments (and accounts, when the adapter trades),
 and supplies everything the panels depend on — a query cache, tooltips,
 notifications and an error boundary. If the adapter fails to load, it shows the
@@ -629,8 +628,8 @@ error with a retry button instead of a blank screen.
 
 | Prop | Default | |
 | --- | --- | --- |
-| `adapter` | — | Your `OpenChartsAdapter` (required) |
-| `fallback` | "Loading OpenCharts…" | Shown while instruments and accounts load |
+| `adapter` | — | Your `ActiveTradingAdapter` (required) |
+| `fallback` | "Loading ActiveTrading…" | Shown while instruments and accounts load |
 | `queryClient` | its own | Pass yours to share a TanStack Query cache; by default the terminal's stays separate from the host's |
 | `showNotifications` | `true` | Render the built-in notifications |
 | `className` / `style` | — | Applied to the scoping element |
@@ -638,7 +637,7 @@ error with a retry button instead of a blank screen.
 ### It will not touch your page
 
 Every rule in `style.css` — Tailwind's reset, utilities and the theme variables —
-is scoped under the `.opencharts` element the provider renders. Your page keeps
+is scoped under the `.activetrading` element the provider renders. Your page keeps
 its own fonts, spacing, form controls, tables and scrolling, and a
 [shadcn/ui](https://ui.shadcn.com) theme using the same variable names
 (`--background`, `--primary`, …) is left alone. The build fails if any selector
@@ -653,7 +652,7 @@ Order fills, rejections and their reasons, and validation warnings come
 through one stream:
 
 ```tsx
-import { onNotification } from "@dylanpersonguy/opencharts";
+import { onNotification } from "activetrading";
 
 const stop = onNotification((n) => myToaster.show(n.title, n.message, n.type));
 ```
@@ -692,7 +691,7 @@ Everything works with no configuration. Optional environment variables:
 | `VITE_ADAPTER` | Set to `binance` to run the demo against live Binance prices |
 | `VITE_API_URL` | Base URL used by the legacy HTTP client in `src/services/api/` |
 
-**OpenCharts ships no analytics or telemetry.** Nothing leaves the browser
+**ActiveTrading ships no analytics or telemetry.** Nothing leaves the browser
 except the requests your adapter makes, and the TradingView embeds below.
 
 Note that the Calendar tab and the technical-analysis gauge load TradingView's
@@ -763,7 +762,7 @@ and Vitest.
 
 ## Contributing
 
-OpenCharts is a community project and it is open to anyone who wants to make it
+ActiveTrading is a community project and it is open to anyone who wants to make it
 better — there is no core team you need permission from. Issues, pull requests,
 questions and design opinions are all welcome, and small first contributions are
 genuinely useful.
@@ -771,10 +770,10 @@ genuinely useful.
 Good places to start:
 
 - **Indicators and drawing tools** — the two most self-contained additions; see
-  [Building on OpenCharts](#building-on-opencharts).
+  [Building on ActiveTrading](#building-on-activetrading).
 - **Persistence for the paper account**, so a session survives a reload.
 - **Data adapters** for other exchanges or brokers, written against the
-  `OpenChartsAdapter` contract — [`examples/binance-adapter/`](examples/binance-adapter/)
+  `ActiveTradingAdapter` contract — [`examples/binance-adapter/`](examples/binance-adapter/)
   is the template, and the conformance suite tells you when it is right.
 - **Themes and layout customization** — the chart palette lives in
   `pages/trading/constants.ts` and the design tokens in `tailwind.config.js`.
@@ -789,18 +788,18 @@ of the codebase and what makes a reviewable PR. Please also read the
 
 The one architectural rule: UI code talks to `api` and `wsClient`, never to an
 adapter or the demo layer directly, and backends plug in only through the
-`OpenChartsAdapter` contract. That is what keeps the terminal backend-agnostic.
+`ActiveTradingAdapter` contract. That is what keeps the terminal backend-agnostic.
 
 ## Acknowledgements
 
-OpenCharts stands on TradingView's open-source
+ActiveTrading stands on TradingView's open-source
 [Lightweight Charts™](https://github.com/tradingview/lightweight-charts), which
 renders every chart here, and on the plugin examples shipped in that repository.
 Thank you to TradingView for releasing it under a permissive license.
 
 ## License
 
-OpenCharts is released under the **MIT License** — see [LICENSE](LICENSE).
+ActiveTrading is released under the **MIT License** — see [LICENSE](LICENSE).
 
 It bundles TradingView's Lightweight Charts™, which is licensed under the
 **Apache License 2.0** and requires that you keep its attribution notice and a

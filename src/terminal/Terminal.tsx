@@ -6,9 +6,9 @@ import { TradingPage } from "../pages/TradingPage.tsx";
  * and replay in the standard layout.
  *
  * ```tsx
- * <OpenChartsProvider adapter={myAdapter}>
+ * <ActiveTradingProvider adapter={myAdapter}>
  *   <Terminal />
- * </OpenChartsProvider>
+ * </ActiveTradingProvider>
  * ```
  *
  * For a different arrangement, use `<TerminalProvider>` with the individual
